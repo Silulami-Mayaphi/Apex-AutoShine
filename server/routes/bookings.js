@@ -1,11 +1,21 @@
-const express = require("express");
+import express from "express";
+import Booking from "../models/booking.js";
+
 const router = express.Router();
-const { createBooking, getBookings } = require("../controllers/bookingsController");
 
-// GET all bookings (for admin/testing)
-router.get("/", getBookings);
+// Create new booking
+router.post("/", async (req, res) => {
+  try {
+    const { name, email, phone, service, date, amount } = req.body;
 
-// POST new booking
-router.post("/", createBooking);
+    const booking = new Booking({ name, email, phone, service, date, amount });
+    await booking.save();
 
-module.exports = router;
+    res.status(201).json({ booking, message: "Booking created. Proceed to payment." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+export default router;
