@@ -23,6 +23,11 @@ const services = [
     description: "Protect your car’s paint and give it a glossy finish.",
     icon: "💎",
   },
+  { 
+  title: "Other Mobile Detailing", 
+  description: "Mobile cleaning services for sliding doors, mats, and other surfaces at your home or office. Prices vary based on service requirements." 
+}
+
 ];
 
 const Services = () => {

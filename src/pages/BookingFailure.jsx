@@ -2,20 +2,20 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-const PaymentSuccess = () => {
+const PaymentFailure = () => {
   const [searchParams] = useSearchParams();
-  const bookingId = searchParams.get("bookingId"); // sent from Yoco redirect
+  const bookingId = searchParams.get("bookingId"); // optional reference
 
   useEffect(() => {
     if (bookingId) {
-      // Update booking status to "paid" in backend
+      // Update booking status to "failed" in backend
       axios
         .post("http://localhost:5000/api/yoco/update-status", {
           bookingId,
-          status: "paid",
+          status: "failed",
         })
         .then(() => {
-          console.log("Booking updated to paid and email sent.");
+          console.log("Booking updated to failed.");
         })
         .catch((err) => {
           console.error("Failed to update booking status:", err.response?.data || err.message);
@@ -25,10 +25,10 @@ const PaymentSuccess = () => {
 
   return (
     <section className="py-24 text-center">
-      <h1 className="text-4xl font-bold text-green-600 mb-4">Payment Successful!</h1>
-      <p className="text-lg">Thank you for your booking. A confirmation email has been sent to you.</p>
+      <h1 className="text-4xl font-bold text-red-600 mb-4">Payment Failed</h1>
+      <p className="text-lg">Your payment was unsuccessful or cancelled. Please try again.</p>
     </section>
   );
 };
 
-export default PaymentSuccess;
+export default PaymentFailure;
